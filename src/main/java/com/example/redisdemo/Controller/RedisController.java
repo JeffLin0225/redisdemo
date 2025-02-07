@@ -120,9 +120,9 @@ public class RedisController {
      * @param
      */
     @PostMapping("/setProductList")
-    public void setProductList(@RequestBody List<Product> productList) {
+    public String setProductList(@RequestBody List<Product> productList) {
         System.out.println("有打到productList: " + productList);
-        myRedisService.saveProductList(productList);
+        return productList.isEmpty() ? "沒有給ProductList參數" : myRedisService.saveProductList(productList);
     }
 
     @GetMapping("/getProductList")

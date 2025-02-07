@@ -100,15 +100,18 @@ public class RedisService {
      *
      * @return
      */
-    public void saveProductList(List<Product> productList) {
+    public String saveProductList(List<Product> productList) {
         List<Product> theProductList = new ArrayList<>();
         for (Product product : productList) {
             User user = getUserById(product.getUser().getId());
+            if (user == null){
+                return "沒有User，不做SaveProductList";
+            }
             product.setUser(user);
             theProductList.add(product);
         }
         template.opsForList().rightPushAll("productList", theProductList.toArray());
-
+        return "SaveProductList成功！";
     }
 
     public List<Product> getProductList() {
